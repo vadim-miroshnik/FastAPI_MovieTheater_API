@@ -1,0 +1,46 @@
+networks:
+  app_movies_net:
+    external: true
+  default:
+
+services:
+
+  api-redis:
+    image: redis:6.2.5
+    container_name: api-redis
+    restart: unless-stopped
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - "7379:6379"
+    networks:
+      - app_movies_net
+
+  fastapi:
+    container_name: fastapi
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    env_file:
+      - ./.dev.env
+    ports:
+      - "8800:8000"
+    networks:
+      - app_movies_net
+    depends_on:
+      - api-redis
+
+  api-nginx:
+    image: nginx:1.21.1
+    container_name: api-nginx
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    ports:
+      - "80:80"
+    networks:
+      - app_movies_net
+    depends_on:
+      - fastapi
