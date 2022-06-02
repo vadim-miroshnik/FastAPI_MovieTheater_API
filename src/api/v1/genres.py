@@ -9,7 +9,11 @@ from core.utils import page_check
 router = APIRouter()
 
 # Внедряем GenreService с помощью Depends(get_genre_service)
-@router.get('/{genre_id}', response_model=Genre)
+@router.get('/{genre_id}', response_model=Genre,
+            summary="Жанр",
+            description="Жанр кинопроизведения",
+            response_description="ID жанра, название",
+            )
 async def genre_details(genre_id: str, genre_service: GenreService = Depends(get_genre_service)) -> Genre:
     genre = await genre_service.get_by_id(genre_id)
     if not genre:
@@ -39,7 +43,12 @@ async def format_genres(results) -> list[Genre]:
     return genres
 
 
-@router.get("/")
+@router.get("/",
+            response_model=list[Genre],
+            summary="Жанры",
+            description="Список жанров кинопроизведений",
+            response_description="ID жанра, название",
+            )
 async def genres(
         sort: Optional[str] = None,
         page_number: Optional[int] = Query(None, alias="page[number]"),

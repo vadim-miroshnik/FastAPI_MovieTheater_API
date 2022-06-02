@@ -8,7 +8,7 @@ from core.logger import LOGGING
 logging_config.dictConfig(LOGGING)
 
 # Название проекта. Используется в Swagger-документации
-PROJECT_NAME = os.getenv('PROJECT_NAME', 'movies')
+PROJECT_NAME = os.getenv('PROJECT_NAME', 'Read-only API для онлайн-кинотеатра')
 
 # Настройки Redis
 #REDIS_HOST = os.getenv('REDIS_HOST', 'api-redis') 
