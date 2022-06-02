@@ -10,7 +10,12 @@ from core.utils import page_check
 router = APIRouter()
 
 # Внедряем PersonService с помощью Depends(get_person_service)
-@router.get('/{person_id}', response_model=Person)
+@router.get('/{person_id}', 
+            response_model=Person,
+            summary="Персона",
+            description="Информация о персоне",
+            response_description="ID персоны,полное имя,роль,фильмы",
+            )
 async def person_details(person_id: str, person_service: PersonService = Depends(get_person_service)) -> Person:
     person = await person_service.get_by_id(person_id)
     if not person:
@@ -55,7 +60,13 @@ async def format_persons(results) -> list[Person]:
     return persons
 
 
-@router.get("/search/")
+@router.get("/search/",
+            response_model=list[Person],
+            summary="Поиск персоны",
+            description="Полнотекстовый поиск по персонам",
+            response_description="Полное имя персоны",
+            tags=['Полнотекстовый поиск']
+            )
 async def search_persons(
         query: Optional[str] = None,
         sort: Optional[str] = None,
@@ -69,7 +80,11 @@ async def search_persons(
     return persons
 
 
-@router.get("/{person_id}/films", response_model=list[Films])
+@router.get("/{person_id}/films", response_model=list[Films],
+            summary="Кинопроизведения по персоне",
+            description="Список всех кинопроизведений, в которых участвовала персона",
+            response_description="ID кинопроизведения,название,рейтинг",
+            )
 async def films_by_person_search(
     person_id: str,
     sort: Optional[str] = None,

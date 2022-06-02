@@ -9,7 +9,11 @@ from core.utils import page_check
 router = APIRouter()
 
 # Внедряем FilmService с помощью Depends(get_film_service)
-@router.get('/{film_id}', response_model=Film)
+@router.get('/{film_id}', response_model=Film,
+         summary="Кинопроизведение",
+         description="Просмотр информации об одном кинопроизведении",
+         response_description="Название,рейтинг фильма,описание,жанры,актеры,сценаристы,режиссеры",
+)
 async def film_details(film_id: str, film_service: FilmService = Depends(get_film_service)) -> Film:
     film = await film_service.get_by_id(film_id)
     if not film:
@@ -66,7 +70,12 @@ async def format_films(results) -> list[Films]:
     return films
 
 
-@router.get("/")
+@router.get("/",
+         response_model=list[Films],
+         summary="Список кинопроизведений",
+         description="Спис кинопроизведений с сортировкой и фильтром по жанрам",
+         response_description="ID, название, рейтинг",
+        )
 async def films(
         sort: Optional[str] = Query(None, regex="-imdb_rating|imdb_rating"),
         filter_genre: Optional[list] = Query(None, alias="filter[genre]"),
@@ -80,7 +89,13 @@ async def films(
     return films
 
 
-@router.get("/search/")
+@router.get("/search/",
+         response_model=list[Films],
+         summary="Поиск кинопроизведений",
+         description="Полнотекстовый поиск по кинопроизведениям",
+         response_description="ID, название, рейтинг фильма",
+         tags=['Полнотекстовый поиск']
+        )
 async def search_films(
         query: Optional[str] = None,
         sort: Optional[str] = None,
