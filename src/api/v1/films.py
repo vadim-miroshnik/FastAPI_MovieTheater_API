@@ -1,10 +1,10 @@
 from http import HTTPStatus
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from services.films import FilmService, get_film_service
-from api.v1.schemas import Person, Film, Films
-from core.utils import page_check
+from api.v1.schemas import Person, Film, Films, FilmPerson
+from services.paginator import page_check
 
 router = APIRouter()
 
@@ -15,7 +15,7 @@ router = APIRouter()
          response_description="Название,рейтинг фильма,описание,жанры,актеры,сценаристы,режиссеры",
 )
 async def film_details(film_id: str, film_service: FilmService = Depends(get_film_service)) -> Film:
-    film = await film_service.get_by_id(film_id)
+    film = await film_service.get_by_id(item_id=film_id)
     if not film:
         # Если фильм не найден, отдаём 404 статус
         # Желательно пользоваться уже определёнными HTTP-статусами, которые содержат enum  
@@ -34,11 +34,11 @@ async def film_details(film_id: str, film_service: FilmService = Depends(get_fil
         #film_api.genre = [Genre(name=gen) for gen in film.genre]
         film_api.genre = film.genre
     if film.actors is not None:
-        film_api.actors = [Person(uuid=act.id,full_name=act.name) for act in film.actors]
+        film_api.actors = [FilmPerson(uuid=act.id,full_name=act.name) for act in film.actors]
     if film.writers is not None:
-        film_api.writers = [Person(uuid=wrt.id,full_name=wrt.name) for wrt in film.writers]
+        film_api.writers = [FilmPerson(uuid=wrt.id,full_name=wrt.name) for wrt in film.writers]
     if film.directors is not None:
-        film_api.directors = [Person(uuid=dir.id,full_name=dir.name) for dir in film.directors]
+        film_api.directors = [FilmPerson(uuid=dir.id,full_name=dir.name) for dir in film.directors]
     return film_api
 
 def films_val_check(filter_genre, sort, page_number, page_size):
@@ -57,7 +57,7 @@ def films_val_check(filter_genre, sort, page_number, page_size):
     return filter, sort_out, page
 
 
-async def format_films(results) -> list[Films]:
+async def format_films(results) -> List[Films]:
     films = []
     if results.get("hits") is None:
         return films
@@ -71,26 +71,26 @@ async def format_films(results) -> list[Films]:
 
 
 @router.get("/",
-         response_model=list[Films],
+         response_model=List[Films],
          summary="Список кинопроизведений",
          description="Спис кинопроизведений с сортировкой и фильтром по жанрам",
          response_description="ID, название, рейтинг",
         )
 async def films(
         sort: Optional[str] = Query(None, regex="-imdb_rating|imdb_rating"),
-        filter_genre: Optional[list] = Query(None, alias="filter[genre]"),
+        filter_genre: Optional[List] = Query(None, alias="filter[genre]"),
         page_number: Optional[int] = Query(None, alias="page[number]"),
         page_size: Optional[int] = Query(None, alias="page[size]"),
         film_service: FilmService = Depends(get_film_service)
-) -> Optional[list[Films]]:
+) -> Optional[List[Films]]:
     filter, sort_out, page = films_val_check(filter_genre, sort, page_number, page_size)
-    results = await film_service.get_films(search_query=None, person_id=None, sort=sort_out, filter=filter, page=page)
+    results = await film_service._get_all_items(search_query=None, person_id=None, sort=sort_out, filter=filter, page=page)
     films = await format_films(results)
     return films
 
 
 @router.get("/search/",
-         response_model=list[Films],
+         response_model=List[Films],
          summary="Поиск кинопроизведений",
          description="Полнотекстовый поиск по кинопроизведениям",
          response_description="ID, название, рейтинг фильма",
@@ -99,12 +99,12 @@ async def films(
 async def search_films(
         query: Optional[str] = None,
         sort: Optional[str] = None,
-        filter_genre: Optional[list] = Query(None, alias="filter[genre]"),
+        filter_genre: Optional[List] = Query(None, alias="filter[genre]"),
         page_number: Optional[int] = Query(None, alias="page[number]"),
         page_size: Optional[int] = Query(None, alias="page[size]"),
         film_service: FilmService = Depends(get_film_service)
-) -> Optional[list[Films]]:
+) -> Optional[List[Films]]:
     filter, sort, page = films_val_check(filter_genre, sort, page_number, page_size)
-    results = await film_service.get_films(search_query=query, person_id=None, sort=sort, filter=filter, page=page)
+    results = await film_service._get_all_items(search_query=query, person_id=None, sort=sort, filter=filter, page=page)
     films = await format_films(results)
     return films
