@@ -3,6 +3,7 @@ networks:
     external: true
   default:
 
+
 services:
 
   api-redis:
@@ -44,3 +45,13 @@ services:
       - app_movies_net
     depends_on:
       - fastapi
+
+  tests:
+    container_name: api-test
+    build:
+      context: ./tests/
+      dockerfile: Dockerfile
+    environment:
+      - .dev.env
+    networks:
+      - app_movies_net
