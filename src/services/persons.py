@@ -14,10 +14,9 @@ class PersonService(BaseService):
     def __init__(self, redis: Redis, elastic: AsyncElasticsearch):
         self.redis = redis
         self.elastic = elastic
-
-    index = 'persons'
-    endpoint = 'persons'
-    etlmodel = Person
+        self.index = 'persons'
+        self.endpoint = 'persons'
+        self.etlmodel = Person
 
 @lru_cache()
 def get_person_service(

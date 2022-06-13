@@ -55,6 +55,7 @@ async def genres(
     sort, page = items_val_check(sort, page_number, page_size)
     results = await genre_service._get_all_items(
         search_query=None,
+        person_id=None,
         filter=None,
         sort=sort,
         page=page)

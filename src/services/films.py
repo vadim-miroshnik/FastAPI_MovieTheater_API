@@ -14,10 +14,9 @@ class FilmService(BaseService):
     def __init__(self, redis: Redis, elastic: AsyncElasticsearch):
         self.redis = redis
         self.elastic = elastic
-        
-    index = 'movies'
-    endpoint = 'movies'
-    etlmodel = Film
+        self.index = 'movies'
+        self.endpoint = 'movies'
+        self.etlmodel = Film
 
 @lru_cache()
 def get_film_service(
