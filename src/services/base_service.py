@@ -1,4 +1,3 @@
-
 from operator import index
 from typing import Optional
 from elasticsearch import NotFoundError
@@ -78,7 +77,7 @@ class BaseService(BaseCache):
                 "bool": {
                     "must": []
                 }}}
-        
+
         if filter is not None and self.index == 'movies':
 
             if type(filter.get("genre")) is str:
@@ -92,10 +91,9 @@ class BaseService(BaseCache):
 
             elif type(filter.get("person")) is str:
                 for field_name in ("directors", "actors", "writers"):
-                    filter[field_name] = [filter.get(field_name), ]
                     body["query"]["bool"]["must"].append(
                         {"nested": {"path": field_name, "query": {
-                            "match": {f"{field_name}.uuid": str(person_id)}}}}
+                            "match": {f"{field_name}.id": str(person_id)}}}}
                     )
 
         if search_query is not None:
@@ -104,8 +102,7 @@ class BaseService(BaseCache):
             )
         if filter is None and search_query is None:
             body = None
-            
-        print('!!!!!!!!!!!!!!!', body)
+
         response = await self.elastic.search(
             index=self.index,
             from_=(page["number"] - 1) * page["size"],
