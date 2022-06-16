@@ -1,4 +1,6 @@
+import asyncio
 from dataclasses import dataclass
+from turtle import settiltangle
 
 import aiohttp
 import aioredis
@@ -6,15 +8,9 @@ import pytest
 from elasticsearch import AsyncElasticsearch
 from multidict import CIMultiDictProxy
 
+from . import es_index, testdata
 from .settings import Settings
-
-
-@pytest.fixture(scope="module")
-def resource_setup():
-    settings = Settings()
-    return {"service_url": settings.service_url,
-            "elastic_url": settings.elastic_url,
-            "redis_url": settings.redis_url}
+from .utils.es_inserter import es_index_loader
 
 
 @dataclass
@@ -24,19 +20,18 @@ class HTTPResponse:
     status: int
 
 
+@pytest.fixture(scope="session")
+def event_loop():
+    loop = asyncio.get_event_loop()
+    yield loop
+    loop.close()
+
+
 @pytest.fixture()
-async def es_client(resource_setup):
-    es_client = AsyncElasticsearch(hosts=resource_setup["elastic_url"])
+async def es_client():
+    es_client = AsyncElasticsearch(hosts=Settings.elastic_url)
     yield es_client
     await es_client.close()
-
-
-@pytest.fixture()
-async def redis_client(resource_setup):
-    redis = await aioredis.create_redis_pool(resource_setup["redis_url"])
-    yield redis
-    redis.close()
-    await redis.wait_closed()
 
 
 @pytest.fixture()
@@ -47,15 +42,55 @@ async def session():
 
 
 @pytest.fixture
-async def make_get_request(session, resource_setup):
+async def person_index(es_client):
+    index: str = Settings.person_test_index
+    await es_index_loader(
+        es_client=es_client,
+        index=index,
+        index_body=es_index.PERSON_TEST_INDEX_BODY,
+        row_data=testdata.data_person,
+    )
+    yield
+    await es_client.indices.delete(index=index)
+
+
+@pytest.fixture
+async def genre_index(es_client):
+    index: str = Settings.genre_test_index
+    await es_index_loader(
+        es_client=es_client,
+        index=index,
+        index_body=es_index.GENRE_TEST_INDEX_BODY,
+        row_data=testdata.data_genre,
+    )
+    yield
+    await es_client.indices.delete(index=index)
+
+
+@pytest.fixture
+async def movies_index(es_client):
+    index: str = Settings.movies_test_index
+    await es_index_loader(
+        es_client=es_client,
+        index=index,
+        index_body=es_index.FILM_WORK_TEST_INDEX_BODY,
+        row_data=testdata.data_films,
+    )
+    yield
+    await es_client.indices.delete(index=index)
+
+
+@pytest.fixture
+async def make_get_request(session):
     async def inner(endpoint: str, params: dict = None) -> HTTPResponse:
         params = params or {}
-        url = resource_setup["service_url"] + '/api/v1' + endpoint
+        url = Settings.service_url + '/api/v1/' + endpoint
         async with session.get(url, params=params) as response:
-            return HTTPResponse(
+            response = HTTPResponse(
                 body=await response.json(),
                 headers=response.headers,
                 status=response.status,
             )
+            return response
 
     return inner

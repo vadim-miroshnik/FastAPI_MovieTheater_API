@@ -1,7 +1,7 @@
-from typing import Optional
+from typing import Optional, List
 from uuid import UUID
 
-from mixin import PaginationBase, UUIDBase
+from ..schemas.mixin import PaginationBase, UUIDBase
 
 
 class FilmPerson(UUIDBase):
@@ -12,8 +12,8 @@ class FilmPerson(UUIDBase):
 class DetailPerson(FilmPerson):
 
     role: str
-    film_ids: Optional[list[UUID]] = []
+    film_ids: Optional[List[UUID]] = []
 
 
 class PersonPagination(PaginationBase):
-    persons: list[DetailPerson] = []
+    persons: List[DetailPerson] = []
