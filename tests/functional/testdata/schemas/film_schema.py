@@ -1,8 +1,8 @@
-from typing import Optional
+from typing import Optional, List
 
-from genre_schema import FilmGenre
-from mixin import PaginationBase, UUIDBase
-from person_schema import FilmPerson
+from ..schemas.mixin import PaginationBase, UUIDBase
+from ..schemas.genre_schema import FilmGenre
+from ..schemas.person_schema import FilmPerson
 
 
 class ListFilm(UUIDBase):
@@ -14,11 +14,11 @@ class ListFilm(UUIDBase):
 class DetailResponseFilm(ListFilm):
 
     description: Optional[str] = None
-    genre: Optional[list[FilmGenre]] = []
-    actors: Optional[list[FilmPerson]] = []
-    writers: Optional[list[FilmPerson]] = []
-    directors: Optional[list[FilmPerson]] = []
+    genre: Optional[List[FilmGenre]] = []
+    actors: Optional[List[FilmPerson]] = []
+    writers: Optional[List[FilmPerson]] = []
+    directors: Optional[List[FilmPerson]] = []
 
 
 class FilmPagination(PaginationBase):
-    films: list[ListFilm] = []
+    films: List[ListFilm] = []

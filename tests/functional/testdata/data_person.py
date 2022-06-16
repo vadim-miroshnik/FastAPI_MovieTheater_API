@@ -1,4 +1,6 @@
-data_person: list[dict] = [
+from typing import List
+
+data_person: List[dict] = [
     {
         "id": "979996d5-ef97-427d-a0f5-d640cd1813a4",
         "full_name": "Jake Lloyd",

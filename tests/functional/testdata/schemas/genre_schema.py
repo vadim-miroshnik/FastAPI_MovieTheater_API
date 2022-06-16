@@ -1,4 +1,6 @@
-from mixin import PaginationBase, UUIDBase
+from typing import List
+
+from ..schemas.mixin import PaginationBase, UUIDBase
 
 
 class FilmGenre(UUIDBase):
@@ -7,4 +9,4 @@ class FilmGenre(UUIDBase):
 
 
 class GenrePagination(PaginationBase):
-    genres: list[FilmGenre] = []
+    genres: List[FilmGenre] = []

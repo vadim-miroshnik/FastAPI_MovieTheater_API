@@ -105,6 +105,7 @@ async def films_by_person_search(
     film_service: FilmService = Depends(get_film_service)
 ) -> Optional[List[Films]]:
 
+    
     filter_person = 'person'
     filter, sort, page  = persons_val_check(filter_person, sort, page_number, page_size)
     results = await film_service._get_all_items(search_query=None,
