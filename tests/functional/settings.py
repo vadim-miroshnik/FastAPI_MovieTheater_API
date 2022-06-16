@@ -1,4 +1,6 @@
+from dotenv import load_dotenv
 from pydantic import BaseSettings, Field
+from pathlib import Path
 
 load_dotenv()
 
@@ -19,3 +21,6 @@ class Settings(BaseSettings):
     person_cache_key: str = "person_test"
     genre_cache_key: str = "genre_test"
     movies_cache_key: str = "movies_test"
+
+    responses_dir: Path = Field(
+        "tests/functional/testdata/responses")

@@ -30,4 +30,4 @@ class Film(BaseWithJsonModel):
 class Films(BaseWithJsonModel):
     uuid: UUID
     title: str
-    imdb_rating: float
+    imdb_rating: Optional[float] = 0

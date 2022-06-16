@@ -13,7 +13,8 @@ PROJECT_NAME = os.getenv('PROJECT_NAME', 'Read-only API для онлайн-ки
 # Настройки Redis
 #REDIS_HOST = os.getenv('REDIS_HOST', 'api-redis') 
 REDIS_HOST = os.getenv('REDIS_HOST', '127.0.0.1')#для локальной отладки
-REDIS_PORT = int(os.getenv('REDIS_PORT', 7379))
+#REDIS_PORT = int(os.getenv('REDIS_PORT', 7379))
+REDIS_PORT = int(os.getenv('REDIS_PORT', 6379))#для локальной отладки
 
 # Настройки Elasticsearch
 #ELASTIC_HOST = os.getenv('ELASTIC_HOST', 'es')
