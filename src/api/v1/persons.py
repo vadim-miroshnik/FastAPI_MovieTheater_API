@@ -85,7 +85,7 @@ async def search_persons(
         page_size: Optional[int] = Query(None, alias="page[size]"),
         person_service: PersonService = Depends(get_person_service)
 ) -> Optional[List[Person]]:
-    page = persons_val_check(page_number, page_size)
+    filter, sort, page = persons_val_check(None, sort, page_number, page_size)
     results = await person_service._get_all_items(search_query=query,person_id=None,filter=None,page=page, sort=sort)
     persons = await format_persons(results)
     return persons

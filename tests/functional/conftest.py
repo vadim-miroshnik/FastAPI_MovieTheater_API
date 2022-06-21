@@ -1,9 +1,9 @@
 import asyncio
 from dataclasses import dataclass
-from turtle import settiltangle
+import json
+import aiofiles
 
 import aiohttp
-import aioredis
 import pytest
 from elasticsearch import AsyncElasticsearch
 from multidict import CIMultiDictProxy
@@ -12,6 +12,8 @@ from . import es_index, testdata
 from .settings import Settings
 from .utils.es_inserter import es_index_loader
 
+
+settings = Settings()
 
 @dataclass
 class HTTPResponse:
@@ -94,3 +96,15 @@ async def make_get_request(session):
             return response
 
     return inner
+
+
+@pytest.fixture(scope="function")
+async def expected_json_response(request):
+    """
+    Loads expected response from json file with same filename as function name
+    """
+    file = settings.responses_dir.joinpath(f"{request.node.name}.json")
+    async with aiofiles.open(file) as f:
+        content = await f.read()
+        response = json.loads(content)
+    return response

@@ -21,5 +21,4 @@ class Settings():
     genre_cache_key: str = "genre_test"
     movies_cache_key: str = "movies_test"
 
-    responses_dir: Path = Field(
-        "tests/functional/testdata/responses")
+    responses_dir: Path = Path("./functional/testdata/responses")
