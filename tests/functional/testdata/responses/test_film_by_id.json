@@ -1,69 +1,40 @@
 {
-  "id": "c4c5e3de-c0c9-4091-b242-ceb331004dfd",
+  "uuid": "c4c5e3de-c0c9-4091-b242-ceb331004dfd",
   "title": "Star Wars: Episode II - Attack of the Clones",
-  "description": "Ten years after the invasion of Naboo, the Galactic Republic is facing a Separatist movement "
-                 "and the former queen and now Senator Padmé Amidala travels to Coruscant to vote on a project "
-                 "to create an army to help the Jedi to protect the Republic. Upon arrival, she escapes from an "
-                 "attempt to kill her, and Obi-Wan Kenobi and his Padawan Anakin Skywalker are assigned to "
-                 "protect her. They chase the shape-shifter Zam Wessell but she is killed by a poisoned dart "
-                 "before revealing who hired her. The Jedi Council assigns Obi-Wan Kenobi to discover who has "
-                 "tried to kill Amidala and Anakin to protect her in Naboo. Obi-Wan discovers that the dart is "
-                 "from the planet Kamino, and he heads to the remote planet. He finds an army of clones that "
-                 "has been under production for years for the Republic and that the bounty hunter Jango Fett "
-                 "was the matrix for the clones. Meanwhile Anakin and Amidala fall in love with each other, "
-                 "and he has nightmarish visions of his mother. They travel to his home planet, Tatooine, "
-                 "to see his mother, and he discovers that she has been abducted by Tusken Raiders. Anakin "
-                 "finds his mother dying, and he kills all the Tusken tribe, including the women and children. "
-                 "Obi-Wan follows Jango Fett to the planet Geonosis where he discovers who is behind the "
-                 "Separatist movement. He transmits his discoveries to Anakin since he cannot reach the Jedi "
-                 "Council. Who is the leader of the Separatist movement? Will Anakin receive Obi-Wan's message? "
-                 "And will the secret love between Anakin and Amidala succeed?",
-  "imdb_rating": 6.5,
-  "genre": [
-      {
-          "id": "120a21cf-9097-479e-904a-13dd7198c1dd",
-          "name": "Adventure"
-      },
-      {
-          "id": "3d8d9bf5-0d90-4353-88ba-4ccc5d2c07ff",
-          "name": "Action"
-      },
-      {
-          "id": "b92ef010-5e4c-4fd0-99d6-41b6456272cd",
-          "name": "Fantasy"
-      }
-  ],
+  "description": "Ten years after the invasion of Naboo, the Galactic Republic is facing a Separatist movement and the former queen and now Senator Padmé Amidala travels to Coruscant to vote on a project to create an army to help the Jedi to protect the Republic. Upon arrival, she escapes from an attempt to kill her, and Obi-Wan Kenobi and his Padawan Anakin Skywalker are assigned to protect her. They chase the shape-shifter Zam Wessell but she is killed by a poisoned dart before revealing who hired her. The Jedi Council assigns Obi-Wan Kenobi to discover who has tried to kill Amidala and Anakin to protect her in Naboo. Obi-Wan discovers that the dart is from the planet Kamino, and he heads to the remote planet. He finds an army of clones that has been under production for years for the Republic and that the bounty hunter Jango Fett was the matrix for the clones. Meanwhile Anakin and Amidala fall in love with each other, and he has nightmarish visions of his mother. They travel to his home planet, Tatooine, to see his mother, and he discovers that she has been abducted by Tusken Raiders. Anakin finds his mother dying, and he kills all the Tusken tribe, including the women and children. Obi-Wan follows Jango Fett to the planet Geonosis where he discovers who is behind the Separatist movement. He transmits his discoveries to Anakin since he cannot reach the Jedi Council. Who is the leader of the Separatist movement? Will Anakin receive Obi-Wan's message? And will the secret love between Anakin and Amidala succeed?",
+  "imdb_rating": 7.0,
+  "genre": ["Action","Adventure","Fantasy","Sci-Fi"],
   "actors": [
       {
-          "id": "62df10e8-244d-4c31-b396-564dfbc2f9c5",
+          "uuid": "62df10e8-244d-4c31-b396-564dfbc2f9c5",
           "full_name": "Hayden Christensen"
       },
       {
-          "id": "69b02c62-a329-414d-83c6-ca54be34de24",
+          "uuid": "69b02c62-a329-414d-83c6-ca54be34de24",
           "full_name": "Ewan McGregor"
       },
       {
-          "id": "c777f646-dae0-466f-867a-bc535a0b021b",
+          "uuid": "c777f646-dae0-466f-867a-bc535a0b021b",
           "full_name": "Natalie Portman"
       },
       {
-          "id": "ef1e2ad4-df4f-4fe0-8fa9-b8db690c4a19",
+          "uuid": "ef1e2ad4-df4f-4fe0-8fa9-b8db690c4a19",
           "full_name": "Christopher Lee"
       }
   ],
   "writers": [
       {
-          "id": "8c220eeb-8022-44d5-8435-1f8edf258ac7",
+          "uuid": "8c220eeb-8022-44d5-8435-1f8edf258ac7",
           "full_name": "Jonathan Hales"
       },
       {
-          "id": "a5a8f573-3cee-4ccc-8a2b-91cb9f55250a",
+          "uuid": "a5a8f573-3cee-4ccc-8a2b-91cb9f55250a",
           "full_name": "George Lucas"
       }
   ],
   "directors": [
       {
-          "id": "a5a8f573-3cee-4ccc-8a2b-91cb9f55250a",
+          "uuid": "a5a8f573-3cee-4ccc-8a2b-91cb9f55250a",
           "full_name": "George Lucas"
       }
   ]

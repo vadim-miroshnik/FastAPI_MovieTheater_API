@@ -97,9 +97,14 @@ class BaseService(BaseCache):
                     )
 
         if search_query is not None:
-            body["query"]["bool"]["must"].append(
-                {"match": {"title": str(search_query)}}
-            )
+            if self.index == 'movies':
+                body["query"]["bool"]["must"].append(
+                    {"match": {"title": str(search_query)}}
+                )
+            elif self.index == 'persons':
+                body["query"]["bool"]["must"].append(
+                    {"match": {"full_name": str(search_query)}}
+                )
         if filter is None and search_query is None:
             body = None
 
