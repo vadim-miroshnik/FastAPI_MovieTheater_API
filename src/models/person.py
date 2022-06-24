@@ -1,8 +1,9 @@
-from typing import Optional, List
+from typing import List, Optional
 from uuid import UUID
 
 # Используем pydantic для упрощения работы при перегонке данных из json в объекты
 from models.base import BaseWithJsonModel
+
 
 class Person(BaseWithJsonModel):
     id: str

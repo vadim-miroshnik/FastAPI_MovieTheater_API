@@ -1,8 +1,9 @@
-from typing import Optional, List
+from typing import List, Optional
 from uuid import UUID
 
 # Используем pydantic для упрощения работы при перегонке данных из json в объекты
 from models.base import BaseWithJsonModel
+
 
 class Genre(BaseWithJsonModel):
     id: UUID
@@ -23,6 +24,7 @@ class Film(BaseWithJsonModel):
     actors: Optional[List[Person]]
     writers: Optional[List[Person]]
     directors: Optional[List[Person]]
+
 
 class PersonFull(Person, BaseWithJsonModel):
     role: str

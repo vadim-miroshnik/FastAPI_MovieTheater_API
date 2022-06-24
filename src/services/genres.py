@@ -14,13 +14,14 @@ class GenreService(BaseService):
     def __init__(self, redis: Redis, elastic: AsyncElasticsearch):
         self.redis = redis
         self.elastic = elastic
-        self.index = 'genres'
-        self.endpoint = 'genres'
+        self.index = "genres"
+        self.endpoint = "genres"
         self.etlmodel = Genre
+
 
 @lru_cache()
 def get_genre_service(
-        redis: Redis = Depends(get_redis),
-        elastic: AsyncElasticsearch = Depends(get_elastic),
+    redis: Redis = Depends(get_redis),
+    elastic: AsyncElasticsearch = Depends(get_elastic),
 ) -> GenreService:
     return GenreService(redis, elastic)

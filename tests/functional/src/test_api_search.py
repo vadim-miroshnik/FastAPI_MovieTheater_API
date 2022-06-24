@@ -1,22 +1,21 @@
 import asyncio
-
 from http import HTTPStatus
 
 import pytest
 
-from ..testdata.schemas.person_schema import DetailPerson
-
-from ..testdata import data_films, data_person
+from ..testdata import data_person
 
 pytestmark = pytest.mark.asyncio
 
 
 async def test_search_person(make_get_request):
     test_person: dict = data_person[0]
-    query: str = test_person.get("full_name") #"Jake"
+    query: str = test_person.get("full_name")  # "Jake"
     await asyncio.sleep(3)
     # Выполнение запроса
-    response = await make_get_request(endpoint="persons/search/", params={"query": query})
+    response = await make_get_request(
+        endpoint="persons/search/", params={"query": query}
+    )
     response_body = response.body
     response_person: dict = response_body[0]
     # Проверка результата Elastic
