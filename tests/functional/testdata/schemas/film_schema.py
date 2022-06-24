@@ -1,7 +1,7 @@
-from typing import Optional, List
+from typing import List, Optional
 
-from ..schemas.mixin import PaginationBase, UUIDBase
 from ..schemas.genre_schema import FilmGenre
+from ..schemas.mixin import PaginationBase, UUIDBase
 from ..schemas.person_schema import FilmPerson
 
 

@@ -3,8 +3,8 @@ from http import HTTPStatus
 
 import pytest
 
-from ..testdata.schemas.genre_schema import FilmGenre
 from ..testdata import data_genre
+from ..testdata.schemas.genre_schema import FilmGenre
 
 pytestmark = pytest.mark.asyncio
 
@@ -27,7 +27,7 @@ async def test_genres_list(make_get_request):
     # Выполнение запроса
     response = await make_get_request(endpoint="genres/")
     response_body = response.body
-    #response_genres = response_body.get("genres")
+    # response_genres = response_body.get("genres")
     # Проверка результата Elastic
     assert response.status == HTTPStatus.OK
     assert len(response_body) == len(data_genre)

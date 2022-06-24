@@ -1,12 +1,10 @@
 import asyncio
-
 from http import HTTPStatus
 
 import pytest
 
-from ..testdata.schemas.person_schema import DetailPerson
-
 from ..testdata import data_person
+from ..testdata.schemas.person_schema import DetailPerson
 
 pytestmark = pytest.mark.asyncio
 
@@ -26,7 +24,7 @@ async def test_person_by_id(make_get_request):
         assert response_body.get("film_ids") == person.get("film_ids")
 
 
-'''
+"""
 async def test_person_films(make_get_request):
     test_person: dict = data_person[1]
     person_id: str = test_person.get("uuid")
@@ -48,4 +46,4 @@ async def test_person_films(make_get_request):
                 assert film_instance.get("imdb_rating") == response_film.get(
                     "imdb_rating"
                 )
-'''
+"""

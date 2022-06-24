@@ -1,8 +1,8 @@
 import asyncio
-from dataclasses import dataclass
 import json
-import aiofiles
+from dataclasses import dataclass
 
+import aiofiles
 import aiohttp
 import pytest
 from elasticsearch import AsyncElasticsearch
@@ -12,8 +12,8 @@ from . import es_index, testdata
 from .settings import Settings
 from .utils.es_inserter import es_index_loader
 
-
 settings = Settings()
+
 
 @dataclass
 class HTTPResponse:
@@ -27,20 +27,6 @@ def event_loop():
     loop = asyncio.get_event_loop()
     yield loop
     loop.close()
-
-
-@pytest.fixture()
-async def es_client():
-    es_client = AsyncElasticsearch(hosts=Settings.elastic_url)
-    yield es_client
-    await es_client.close()
-
-
-@pytest.fixture()
-async def session():
-    session = aiohttp.ClientSession()
-    yield session
-    await session.close()
 
 
 @pytest.fixture
@@ -82,11 +68,25 @@ async def movies_index(es_client):
     await es_client.indices.delete(index=index)
 
 
+@pytest.fixture()
+async def es_client():
+    es_client = AsyncElasticsearch(hosts=Settings.elastic_url)
+    yield es_client
+    await es_client.close()
+
+
+@pytest.fixture()
+async def session():
+    session = aiohttp.ClientSession()
+    yield session
+    await session.close()
+
+
 @pytest.fixture
 async def make_get_request(session):
     async def inner(endpoint: str, params: dict = None) -> HTTPResponse:
         params = params or {}
-        url = Settings.service_url + '/api/v1/' + endpoint
+        url = Settings.service_url + "/api/v1/" + endpoint
         async with session.get(url, params=params) as response:
             response = HTTPResponse(
                 body=await response.json(),
