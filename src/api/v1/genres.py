@@ -2,6 +2,7 @@ from http import HTTPStatus
 from typing import List, Optional
 
 from api.v1.schemas import Genre
+from core.pagination import PaginatedParams
 # from models.genre import Genre as ESGenre
 from fastapi import APIRouter, Depends, HTTPException, Query
 from services.genres import GenreService, get_genre_service
@@ -53,11 +54,10 @@ async def format_genres(results) -> List[Genre]:
 )
 async def genres(
     sort: Optional[str] = None,
-    page_number: Optional[int] = Query(None, alias="page[number]"),
-    page_size: Optional[int] = Query(None, alias="page[size]"),
+    pagination: PaginatedParams = Depends(PaginatedParams),
     genre_service: GenreService = Depends(get_genre_service),
 ) -> Optional[List[Genre]]:
-    sort, page = items_val_check(sort, page_number, page_size)
+    sort, page = items_val_check(sort, pagination.page_number, pagination.page_size)
     results = await genre_service._get_all_items(
         search_query=None, person_id=None, filter=None, sort=sort, page=page
     )

@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from api.v1.schemas import Films, Person
 from fastapi import APIRouter, Depends, HTTPException, Query
+from core.pagination import PaginatedParams
 from services.films import FilmService, get_film_service
 from services.paginator import page_check
 from services.persons import PersonService, get_person_service
@@ -95,11 +96,10 @@ async def format_persons(results) -> List[Person]:
 async def search_persons(
     query: Optional[str] = None,
     sort: Optional[str] = None,
-    page_number: Optional[int] = Query(None, alias="page[number]"),
-    page_size: Optional[int] = Query(None, alias="page[size]"),
+    pagination: PaginatedParams = Depends(PaginatedParams),
     person_service: PersonService = Depends(get_person_service),
 ) -> Optional[List[Person]]:
-    filter, sort, page = persons_val_check(None, sort, page_number, page_size)
+    filter, sort, page = persons_val_check(None, sort, pagination.page_number, pagination.page_size)
     results = await person_service._get_all_items(
         search_query=query, person_id=None, filter=None, page=page, sort=sort
     )
@@ -118,13 +118,12 @@ async def films_by_person_search(
     person_id: str,
     sort: Optional[str] = None,
     filter_person: Optional[List] = Query(None, alias="filter[person]"),
-    page_number: Optional[int] = Query(None, alias="page[number]"),
-    page_size: Optional[int] = Query(None, alias="page[size]"),
+    pagination: PaginatedParams = Depends(PaginatedParams),
     film_service: FilmService = Depends(get_film_service),
 ) -> Optional[List[Films]]:
 
     filter_person = "person"
-    filter, sort, page = persons_val_check(filter_person, sort, page_number, page_size)
+    filter, sort, page = persons_val_check(filter_person, sort, pagination.page_number, pagination.page_size)
     results = await film_service._get_all_items(
         search_query=None, person_id=person_id, sort=sort, filter=filter, page=page
     )

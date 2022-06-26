@@ -36,3 +36,10 @@ async def test_genres_list(make_get_request):
             if genre["uuid"] == response_genre["uuid"]:
                 assert genre.get("uuid") == response_genre.get("uuid")
                 assert genre.get("name") == response_genre.get("name")
+
+
+@pytest.mark.asyncio
+async def test_genre_by_wrong_id(make_get_request):
+    genre_id = "11111111-c0c9-4091-b242-ceb331004dfd"
+    response = await make_get_request(f"genres/{genre_id}")
+    assert response.status == HTTPStatus.NOT_FOUND

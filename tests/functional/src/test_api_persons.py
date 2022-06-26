@@ -24,6 +24,13 @@ async def test_person_by_id(make_get_request):
         assert response_body.get("film_ids") == person.get("film_ids")
 
 
+@pytest.mark.asyncio
+async def test_person_by_wrong_id(make_get_request):
+    person_id = "11111111-c0c9-4091-b242-ceb331004dfd"
+    response = await make_get_request(f"persons/{person_id}")
+    assert response.status == HTTPStatus.NOT_FOUND
+
+
 """
 async def test_person_films(make_get_request):
     test_person: dict = data_person[1]

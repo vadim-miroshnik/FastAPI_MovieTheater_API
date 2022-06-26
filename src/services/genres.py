@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from aioredis import Redis
+from db.cache import AsyncCacheStorage
 from db.elastic import get_elastic
 from db.redis import get_redis
 from elasticsearch import AsyncElasticsearch
@@ -11,8 +11,8 @@ from services.base_service import BaseService
 
 
 class GenreService(BaseService):
-    def __init__(self, redis: Redis, elastic: AsyncElasticsearch):
-        self.redis = redis
+    def __init__(self, cache: AsyncCacheStorage, elastic: AsyncElasticsearch):
+        self.cache = cache
         self.elastic = elastic
         self.index = "genres"
         self.endpoint = "genres"
@@ -21,7 +21,7 @@ class GenreService(BaseService):
 
 @lru_cache()
 def get_genre_service(
-    redis: Redis = Depends(get_redis),
+    cache: AsyncCacheStorage = Depends(get_redis),
     elastic: AsyncElasticsearch = Depends(get_elastic),
 ) -> GenreService:
-    return GenreService(redis, elastic)
+    return GenreService(cache, elastic)
