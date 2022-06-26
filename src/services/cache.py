@@ -12,7 +12,7 @@ class BaseCache:
     ) -> Optional[dict]:
 
         key = make_cache_key(endpoint=self.endpoint, item_id=item_id)
-        data = await self.redis.get(key)
+        data = await self.cache.get(key)
         if not data:
             return None
 
@@ -23,7 +23,7 @@ class BaseCache:
 
         key = make_cache_key(endpoint=self.endpoint, item_id=item_id)
         value = item.json()
-        await self.redis.set(key=key, value=value, expire=CACHE_EXPIRE_IN_SECONDS)
+        await self.cache.set(key=key, value=value, expire=CACHE_EXPIRE_IN_SECONDS)
 
     async def _get_all_items_from_cache(
         self,
@@ -41,7 +41,7 @@ class BaseCache:
             page=page,
         )
 
-        data = await self.redis.get(key)
+        data = await self.cache.get(key)
         if not data:
             return None
         items = json.loads(data)
@@ -64,4 +64,4 @@ class BaseCache:
             page=page,
         )
         value = json.dumps(model_items)
-        await self.redis.set(key=key, value=value, expire=CACHE_EXPIRE_IN_SECONDS)
+        await self.cache.set(key=key, value=value, expire=CACHE_EXPIRE_IN_SECONDS)

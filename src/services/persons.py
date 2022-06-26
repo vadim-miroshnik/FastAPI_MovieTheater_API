@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from aioredis import Redis
+from db.cache import AsyncCacheStorage
 from db.elastic import get_elastic
 from db.redis import get_redis
 from elasticsearch import AsyncElasticsearch
@@ -11,8 +11,8 @@ from services.base_service import BaseService
 
 
 class PersonService(BaseService):
-    def __init__(self, redis: Redis, elastic: AsyncElasticsearch):
-        self.redis = redis
+    def __init__(self, cache: AsyncCacheStorage, elastic: AsyncElasticsearch):
+        self.cache = cache
         self.elastic = elastic
         self.index = "persons"
         self.endpoint = "persons"
@@ -21,7 +21,7 @@ class PersonService(BaseService):
 
 @lru_cache()
 def get_person_service(
-    redis: Redis = Depends(get_redis),
+    cache: AsyncCacheStorage = Depends(get_redis),
     elastic: AsyncElasticsearch = Depends(get_elastic),
 ) -> PersonService:
-    return PersonService(redis, elastic)
+    return PersonService(cache, elastic)

@@ -14,6 +14,13 @@ async def test_film_by_id(make_get_request, expected_json_response):
 
 
 @pytest.mark.asyncio
+async def test_film_by_wrong_id(make_get_request):
+    film_id = "11111111-c0c9-4091-b242-ceb331004dfd"
+    response = await make_get_request(f"films/{film_id}")
+    assert response.status == HTTPStatus.NOT_FOUND
+
+
+@pytest.mark.asyncio
 async def test_films(make_get_request, expected_json_response):
     response = await make_get_request("films/", {"page[number]": 1, "page[size]": 10})
     assert response.status == HTTPStatus.OK

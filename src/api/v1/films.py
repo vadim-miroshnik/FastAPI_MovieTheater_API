@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from api.v1.schemas import Film, FilmPerson, Films, Person
 from fastapi import APIRouter, Depends, HTTPException, Query
+from core.pagination import PaginatedParams
 from services.films import FilmService, get_film_service
 from services.paginator import page_check
 
@@ -100,11 +101,12 @@ async def format_films(results) -> List[Films]:
 async def films(
     sort: Optional[str] = Query(None, regex="-imdb_rating|imdb_rating"),
     filter_genre: Optional[List] = Query(None, alias="filter[genre]"),
-    page_number: Optional[int] = Query(None, alias="page[number]"),
-    page_size: Optional[int] = Query(None, alias="page[size]"),
+    pagination: PaginatedParams = Depends(PaginatedParams),
     film_service: FilmService = Depends(get_film_service),
 ) -> Optional[List[Films]]:
-    filter, sort_out, page = films_val_check(filter_genre, sort, page_number, page_size)
+    filter, sort_out, page = films_val_check(
+        filter_genre, sort, pagination.page_number, pagination.page_size
+    )
     results = await film_service._get_all_items(
         search_query=None, person_id=None, sort=sort_out, filter=filter, page=page
     )
@@ -124,11 +126,10 @@ async def search_films(
     query: Optional[str] = None,
     sort: Optional[str] = None,
     filter_genre: Optional[List] = Query(None, alias="filter[genre]"),
-    page_number: Optional[int] = Query(None, alias="page[number]"),
-    page_size: Optional[int] = Query(None, alias="page[size]"),
+    pagination: PaginatedParams = Depends(PaginatedParams),    
     film_service: FilmService = Depends(get_film_service),
 ) -> Optional[List[Films]]:
-    filter, sort, page = films_val_check(filter_genre, sort, page_number, page_size)
+    filter, sort, page = films_val_check(filter_genre, sort, pagination.page_number, pagination.page_size)
     results = await film_service._get_all_items(
         search_query=query, person_id=None, sort=sort, filter=filter, page=page
     )
