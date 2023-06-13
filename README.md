@@ -1,10 +1,15 @@
+
+- Данные хранятся в Elasticsearch
+- Реализовано API для обращения к базе данных на FastAPI с учетом параметров фильтрации и сортировки
+- ответы ручек, запрошенных с одинаковыми параметрами, кешируются в Redis
+- работа с внешними сервисами реализована через exponential backoff
+
+
+Проект состоит из двух приложений. 
+   1. ETL и Admin Panel распологается по адресу https://github.com/DmitryShinkarev/new_admin_panel_sprint_3
+   2. Второе Fast API в текущем репозитории https://github.com/vadim-miroshnik/FastAPI_MovieTheater_API
+
 # Запуск проекта 
-
-   Проект состоит из двух приложений. 
-   * Первое ETL и Admin Panel распологается по адресу https://github.com/DmitryShinkarev/new_admin_panel_sprint_3
-   * Второе Fast API в текущем репозитории https://github.com/fall3nangel/Async_API_sprint_2
-
-
    1. Создать сеть для docker
        `docker network create --driver bridge app_movies_net`
 
@@ -12,5 +17,3 @@
 
    3. Клонировать и запустить текущий проект
    `docker-compose up -d --build`
-
-Проектная работа 5 спринта курса Middle Python-разработчик
