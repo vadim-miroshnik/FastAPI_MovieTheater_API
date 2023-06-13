@@ -7,8 +7,8 @@
 
 
 Проект состоит из двух приложений. 
-   1. ETL и Admin Panel распологается по адресу https://github.com/DmitryShinkarev/new_admin_panel_sprint_3
-   2. Второе Fast API в текущем репозитории https://github.com/vadim-miroshnik/FastAPI_MovieTheater_API
+   1. ETL и Admin Panel распологается в папке part1
+   2. Второе Fast API в текущей папке
 
 # Запуск проекта 
    1. Создать сеть для docker
