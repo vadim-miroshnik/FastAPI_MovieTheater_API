@@ -1,4 +1,4 @@
-# Инструкция по запуск проекта 
+# Запуск проекта 
 
    Проект состоит из двух приложений. 
    * Первое ETL и Admin Panel распологается по адресу https://github.com/DmitryShinkarev/new_admin_panel_sprint_3
